@@ -1,0 +1,34 @@
+query ($search: String, $type: MediaType) {
+  Media(search: $search, type: $type) {
+    id
+    title {
+      romaji
+      english
+      native
+    }
+    format
+    status
+    description
+    startDate {
+      year
+      month
+      day
+    }
+    endDate {
+      year
+      month
+      day
+    }
+    season
+    seasonYear
+    episodes
+    chapters
+    volumes
+    source
+    averageScore
+    genres
+    coverImage {
+      large
+    }
+  }
+}

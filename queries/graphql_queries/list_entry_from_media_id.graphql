@@ -1,0 +1,14 @@
+query ($userId: Int, $mediaId: Int, $type: MediaType) {
+  MediaList(userId: $userId, mediaId: $mediaId, type: $type) {
+    id
+    status
+    progress
+    score
+    media {
+      id
+    }
+    user {
+      name
+    }
+  }
+}
