@@ -1,3 +1,3 @@
 from .database import *
-from .normalize_scores import *
-from .load_query import load_query
+from .load_query import *
+from .get_users_correlation import *

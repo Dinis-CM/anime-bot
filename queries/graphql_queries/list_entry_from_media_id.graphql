@@ -3,7 +3,7 @@ query ($userId: Int, $mediaId: Int, $type: MediaType) {
     id
     status
     progress
-    score
+    score(format: POINT_100)
     media {
       id
     }

@@ -1,5 +1,5 @@
-query ($search: String, $type: MediaType) {
-  Media(search: $search, type: $type) {
+query ($id: Int, $search: String, $type: MediaType) {
+  Media(id: $id, search: $search, type: $type) {
     id
     title {
       romaji
