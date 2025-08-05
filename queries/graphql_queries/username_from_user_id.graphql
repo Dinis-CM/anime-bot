@@ -1,5 +1,0 @@
-query ($id: Int) {
-  User(id: $id) {
-    name
-  }
-}

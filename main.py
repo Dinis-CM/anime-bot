@@ -34,9 +34,9 @@ async def affinity(interaction: discord.Interaction):
 
 
 @bot.tree.command(name="anime", description="Get info about an anime", guild=guild)
-@app_commands.describe(title="Anime title (or id) to search")
-async def anime(interaction: discord.Interaction, title: str):
-    await media_command(interaction, title, "ANIME")
+@app_commands.describe(search="Anime title or id to search")
+async def anime(interaction: discord.Interaction, search: str):
+    await media_command(interaction, search, "ANIME")
 
 @bot.tree.command(name="compare-users", description="Calculates the affinity between two anilist users", guild=guild)
 @app_commands.describe(username1="Anilist username", username2="Anilist username")
@@ -44,9 +44,9 @@ async def compare_users(interaction: discord.Interaction, username1: str, userna
     await compare_users_command(interaction, username1, username2)
 
 @bot.tree.command(name="manga", description="Get info about a manga", guild=guild)
-@app_commands.describe(title="Manga title (or id) to search")
-async def manga(interaction: discord.Interaction, title: str):
-    await media_command(interaction, title, "MANGA")
+@app_commands.describe(search="Manga title or id to search")
+async def manga(interaction: discord.Interaction, search: str):
+    await media_command(interaction, search, "MANGA")
 
 #@bot.tree.command(name="stats", description="Calculates the stats of an user", guild=guild)
 #@app_commands.describe(username="Anilist username")

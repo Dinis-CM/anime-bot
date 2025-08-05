@@ -1,0 +1,6 @@
+query ($id: Int, $name: String) {
+  User(id: $id, name: $name) {
+    id
+    name
+  }
+}

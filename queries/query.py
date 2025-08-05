@@ -6,30 +6,9 @@ def query(query_name, variables):
     API = "https://graphql.anilist.co"
     print(f"[DEBUG] Loading query '{query_name}' with variables: {variables}")
     query = load_query(query_name)
-    print(f"[DEBUG] Sending POST request to {API}")
     response = requests.post(API, json={"query": query, "variables": variables})
     print(f"[DEBUG] Received response with status code: {response.status_code}")
-    response.raise_for_status()
-    print(f"[DEBUG] Response text: {response.text[:200]}...")  # Print first 200 chars for brevity
     return response.status_code, response.text, response.json()
-
-def get_username_from_user_id(user_id):
-    API = "https://graphql.anilist.co"
-    query = load_query("username_from_user_id")
-    variables = {"id": user_id}
-    response = requests.post(API, json={"query": query, "variables": variables})
-    response.raise_for_status()
-    username = response.json()['data']['User']['name']
-    return username
-
-def get_user_id_from_username(username):
-    API = "https://graphql.anilist.co"
-    query = load_query("user_id_from_username")
-    variables = {"name": username}
-    response = requests.post(API, json={"query": query, "variables": variables})
-    response.raise_for_status()
-    user_id = response.json()['data']['User']['id']
-    return user_id
     
 
 def get_media_list_from_username(username):
