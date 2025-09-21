@@ -62,7 +62,7 @@ def media_embed(media_query, user_query, media_type):
 
 
     # Users' media details
-    status_types = {'CURRENT': [], 'COMPLETED': [], 'PAUSED': [], 'DROPPED': [], 'PLANNING': [], 'NOT IN LIST': []}
+    status_types = {'CURRENT': [], 'REPEATING':[], 'COMPLETED': [], 'PAUSED': [], 'DROPPED': [], 'PLANNING': [], 'NOT IN LIST': []}
     print(f"[DEBUG] Sorting user_query by username")
     
     # Sort users into status buckets first
