@@ -1,7 +1,7 @@
 import discord
 from queries import query
 from embeds import media_embed, error_embed
-from utilities import get_all_users
+from utilities import get_all_users, get_username
 
 # Main command function to fetch media details and user list entries
 async def media_command(interaction: discord.Interaction, media_title: str, media_type: str):
@@ -33,42 +33,38 @@ async def media_command(interaction: discord.Interaction, media_title: str, medi
     user_query = []
 
     for user_id in user_list:
+        
+        username = get_username(user_id)
+        
         query_name = "list_entry"
         user_variables = {"userId": user_id, "mediaId": media_query['id'], "type": media_type.upper()}
         user_status_code, user_response_text, user_response_json = query(query_name, user_variables)
+        
         if user_status_code == 200:
-            # User has this media in their list, add their details
-            user_query.append({
-                "username": user_response_json['data']['MediaList']['user']['name'],
-                "status": user_response_json['data']['MediaList'].get('status', "NOT IN LIST"),
-                "progress": user_response_json['data']['MediaList'].get('progress', "N/A"),
-                "score": user_response_json['data']['MediaList'].get('score', 0),
-            })
+            status = user_response_json['data']['entry'].get('status', "NOT IN LIST")
+            progress = user_response_json['data']['entry'].get('progress', "N/A")
+            score = user_response_json['data']['entry'].get('score', 0)
+
         elif user_status_code == 404:
-            
-            query_name = "username"
-            username_variables = {"id": user_id}
-            
-            username_status_code, username_response_text, username_response_json = query(query_name, username_variables)
-
-            if username_status_code != 200:
-                embed = error_embed(username_status_code, username_response_text)
-                await interaction.followup.send(embed=embed)
-                return
-
-            user_query.append({
-                "username": username_response_json['data']['User']['name'],
-                "status": "NOT IN LIST",
-                "progress": "N/A",
-                "score": "N/A",
-            })
+            # User has no entry for this media
+            status = "NOT IN LIST"
+            progress = "N/A"
+            score = 0
 
         else:
             # Handle other errors
             embed = error_embed(user_status_code, user_response_text)
             await interaction.followup.send(embed=embed)
             return
+        
+        user_query.append({
+            "username": username,
+            "status": status,
+            "progress": progress,
+            "score": score,
+        })
 
+    print(user_query)
     # Create and send the embed with media and user details
     embed = media_embed(media_query, user_query, media_type)
     await interaction.followup.send(embed=embed)

@@ -1,8 +1,4 @@
 query ($userId: Int, $username: String) {
-    user: User(id: $userId, name: $username) {
-        id
-        name
-    }
     animeList: MediaListCollection(userId: $userId, userName: $username, type: ANIME) {
         lists {
             entries {

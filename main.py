@@ -21,6 +21,7 @@ async def on_ready():
     print(f'Logged in as {bot.user.name} (ID: {bot.user.id})')
     for guild in guilds:
         await bot.tree.sync(guild=guild)
+    await refresh_usernames()
 
 @bot.tree.command(
     name="add-user",

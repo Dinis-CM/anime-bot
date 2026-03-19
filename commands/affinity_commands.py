@@ -1,5 +1,5 @@
 from queries import query
-from utilities import get_users_correlation, get_user_id, get_all_users
+from utilities import get_users_correlation, get_user_id, get_all_users, get_username
 from embeds import error_embed, affinity_embed
 
 async def affinity_command(interaction):
@@ -23,7 +23,7 @@ async def affinity_command(interaction):
     
     anime_data_1 = response_json['data']['animeList']['lists']
     manga_data_1 = response_json['data']['mangaList']['lists']
-    user_data_1 = response_json['data']['user']
+    user_data_1 = get_username(user_id)
     
     # Flatten all entries in the anime and manga lists
     anime_list_1 = [entry for lst in anime_data_1 for entry in lst.get('entries', [])]
@@ -31,7 +31,7 @@ async def affinity_command(interaction):
     
     for anilist_id in all_ids:
         if anilist_id != user_id:
-            
+
             query_name = "media_list"
             variables = {"userId": anilist_id}
             status_code, response_text, response_json = query(query_name, variables)
@@ -43,7 +43,7 @@ async def affinity_command(interaction):
            
             anime_data_2 = response_json['data']['animeList']['lists']
             manga_data_2 = response_json['data']['mangaList']['lists']
-            user_data_2 = response_json['data']['user']
+            user_data_2 = get_username(anilist_id)
             
             # Flatten all entries in the anime and manga lists
             anime_list_2 = [entry for lst in anime_data_2 for entry in lst.get('entries', [])]
@@ -54,7 +54,7 @@ async def affinity_command(interaction):
             )
             
             affinity.append({
-                "user": user_data_2['name'],
+                "user": user_data_2,
                 "anime_correlation": anime_correlation,
                 "manga_correlation": manga_correlation,
                 "total_correlation": total_correlation,
@@ -62,8 +62,8 @@ async def affinity_command(interaction):
                 "number_common_manga": number_common_manga
             })
 
-    print(f"Affinity results for {user_data_1['name']}: {len(affinity)} users found")
-    embed = affinity_embed(affinity, user_data_1['name'])   
+    print(f"Affinity results for {user_data_1}: {len(affinity)} users found")
+    embed = affinity_embed(affinity, user_data_1)   
     await interaction.followup.send(embed=embed)
     
 

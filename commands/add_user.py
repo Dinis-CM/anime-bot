@@ -1,6 +1,6 @@
 import discord
 from queries import query
-from utilities import save_user_ids, user_exists
+from utilities import save_user, user_exists
 from embeds import *
 
 async def add_user_command(interaction: discord.Interaction, username: str):
@@ -21,7 +21,7 @@ async def add_user_command(interaction: discord.Interaction, username: str):
     anilist_user_id = response_json['data']['User']['id']
 
     if not user_exists(discord_user_id):
-        save_user_ids(discord_user_id, anilist_user_id)
+        save_user(discord_user_id, anilist_user_id, username)
         embed = success_embed(discord_user_id, anilist_user_id, username)
         await interaction.followup.send(embed=embed, ephemeral=True)
     else:
